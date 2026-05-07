@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const path = require("path");
 const mongoose = require("mongoose");
+require("dotenv").config();
 
 const app = express();
 
@@ -10,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
 // MongoDB Connection
-mongoose.connect("mongodb://127.0.0.1:27017/instagramCloneDB")
+mongoose.connect("process.env.mongodb+srv://sagarsonwane90112_db_user:<db_password>@cluster0.njv6pqg.mongodb.net/?appName=Cluster0")
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
