@@ -8,17 +8,19 @@
 body {
   background-color: #000;
   color: #fff;
+  overflow-x: hidden;
 }
 
+/* MAIN CONTAINER */
 .container {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* LEFT */
 .left {
   flex: 1.2;
-  padding: 80px;
+  padding: 5vw;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -30,13 +32,13 @@ body {
 }
 
 .left h1 {
-  font-size: 48px;
+  font-size: clamp(32px, 4vw, 64px);
   font-weight: 300;
   line-height: 1.3;
 }
 
 .left h2 {
-  font-size: 48px;
+  font-size: clamp(32px, 4vw, 64px);
   margin-top: 10px;
 }
 
@@ -48,7 +50,7 @@ body {
 }
 
 .preview {
-  width: 350px;
+  width: min(90%, 400px);
   margin-top: 40px;
   border-radius: 20px;
 }
@@ -59,15 +61,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  padding: 20px;
 }
 
 .login-box {
-  width: 360px;
+  width: 100%;
+  max-width: 360px;
 }
 
 .login-box h3 {
   margin-bottom: 20px;
   font-weight: 500;
+  font-size: 28px;
 }
 
 /* INPUT */
@@ -98,6 +103,7 @@ body {
   font-weight: 600;
   margin-top: 10px;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .login-box button:hover {
@@ -149,14 +155,150 @@ body {
 
 /* FOOTER */
 .footer {
-  position: absolute;
-  bottom: 10px;
   width: 100%;
   text-align: center;
   color: #777;
   font-size: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .footer span {
   margin: 0 8px;
+}
+
+/* =========================
+   TABLET RESPONSIVENESS
+========================= */
+
+@media screen and (max-width: 1000px) {
+
+  .container {
+    flex-direction: column;
+  }
+
+  .left {
+    align-items: center;
+    text-align: center;
+    padding-top: 60px;
+  }
+
+  .right {
+    width: 100%;
+    padding-bottom: 60px;
+  }
+
+  .preview {
+    width: 320px;
+  }
+}
+
+/* =========================
+   MOBILE RESPONSIVENESS
+========================= */
+
+@media screen and (max-width: 768px) {
+
+  .container {
+    flex-direction: column;
+  }
+
+  .left {
+    padding: 40px 20px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .logo {
+    width: 55px;
+    margin-bottom: 20px;
+  }
+
+  .left h1,
+  .left h2 {
+    font-size: clamp(28px, 8vw, 42px);
+    line-height: 1.2;
+  }
+
+  .preview {
+    width: 85%;
+    max-width: 280px;
+    margin-top: 30px;
+  }
+
+  .right {
+    width: 100%;
+    padding: 20px;
+    margin-top: 10px;
+  }
+
+  .login-box {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .login-box h3 {
+    text-align: center;
+    font-size: 24px;
+  }
+
+  .login-box input {
+    padding: 13px;
+    font-size: 14px;
+  }
+
+  .login-box button {
+    padding: 13px;
+  }
+
+  .footer {
+    font-size: 11px;
+    line-height: 2;
+    gap: 8px;
+  }
+
+  .footer span {
+    display: inline-block;
+    margin: 5px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE DEVICES
+========================= */
+
+@media screen and (max-width: 480px) {
+
+  .left {
+    padding: 30px 15px;
+  }
+
+  .left h1,
+  .left h2 {
+    font-size: 26px;
+  }
+
+  .preview {
+    width: 90%;
+  }
+
+  .login-box {
+    max-width: 100%;
+  }
+
+  .login-box input,
+  .login-box button,
+  .facebook {
+    padding: 12px;
+    font-size: 13px;
+  }
+
+  .forgot,
+  .signup,
+  .meta {
+    font-size: 13px;
+  }
 }
