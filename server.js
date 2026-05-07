@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname));
 
 // MongoDB Connection
-mongoose.connect("process.env.mongodb+srv://sagarsonwane90112_db_user:<db_password>@cluster0.njv6pqg.mongodb.net/?appName=Cluster0")
+mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
